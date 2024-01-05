@@ -45,15 +45,55 @@ class QuestionController extends Controller
             }
          }
 
-         return response()->json(['errors' => 'question added'], 201); 
+         return response()->json(['success' => 'question added'], 201); 
      }
  
      public function editQuestion(Request $request){
-         return 'ok';
+        $rules = [
+            'question_id' => 'required',
+            'question' => 'required',
+            'option_id'=>'required',
+            'option'=>'required',
+            'answer'=>'required'
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $update =Question::find($request->question_id);
+        $update->question=$request->question;
+        $update->save();
+        for($i=0; $i<count($request->option); $i++){
+            $option=Option::find($request->option_id[$i]);
+            $option->option=$request->option[$i];
+            $option->save();
+            if(($request->answer)-1==$i){
+               $ans=new Answer;
+               $ans->question_id=$question->id;
+               $ans->option_id=$option->id;
+               $ans->save();
+            }
+         }
+
+         return response()->json(['success' => 'question updated'], 200); 
+
      }
  
  
      public function deleteQuestion(Request $request){
-         return 'ok';
+        $rules = [
+            'question_id' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $delete=Question::find($request->question_id);
+        if(!$delete){
+            return response()->json(['error' => 'question note found'], 404); 
+        }
+        $delete->delete();
+
+        return response()->json(['sucsses' => 'question deleted'], 200); 
      }
 }
