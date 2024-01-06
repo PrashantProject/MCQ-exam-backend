@@ -12,4 +12,10 @@ class QuestionSet extends Model
     protected $fillable = [
          'set_name','title','instruction'
     ];
+
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class,'set_id');
+    }
 }

@@ -14,6 +14,10 @@ use App\Models\Answer;
 class QuestionController extends Controller
 {
     public function addQuestion(Request $request){
+        $user=auth()->user();
+        if ($user->role!='admin') {
+            return response()->json(['errors' =>'Unauthorized'], 401);
+        }
         $rules = [
             'set_id' => 'required',
             'question' => 'required',
@@ -49,6 +53,10 @@ class QuestionController extends Controller
      }
  
      public function editQuestion(Request $request){
+        $user=auth()->user();
+        if ($user->role!='admin') {
+            return response()->json(['errors' =>'Unauthorized'], 401);
+        }
         $rules = [
             'question_id' => 'required',
             'question' => 'required',
@@ -81,6 +89,10 @@ class QuestionController extends Controller
  
  
      public function deleteQuestion(Request $request){
+        $user=auth()->user();
+        if ($user->role!='admin') {
+            return response()->json(['errors' =>'Unauthorized'], 401);
+        }
         $rules = [
             'question_id' => 'required',
         ];

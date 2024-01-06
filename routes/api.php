@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/set',[QuestionSet::class,'Set']);
     Route::post('/set',[QuestionSet::class,'addSet']);
+    Route::post('/set_for_user',[QuestionSet::class,'setForUser']);
     Route::put('/set',[QuestionSet::class,'editSet']);
     Route::delete('/set',[QuestionSet::class,'deletSet']);
 
