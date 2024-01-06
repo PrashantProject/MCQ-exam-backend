@@ -9,7 +9,7 @@ class ExamController extends Controller
 {
     public function addAnswer(Request $request){
         $user=auth()->user();
-        if ($validator->fails()) {
+        if (!$user) {
             return response()->json(['errors' =>'Unauthorized'], 401);
         }
         $rules = [
@@ -26,22 +26,15 @@ class ExamController extends Controller
         }else{
             $attempt=new Attempte;
         }
-        $attempt=new Attempte;
         $attempt->user_id= $user->id;
         $attempt->question_id=$request->question_id;
         $attempt->option_id=$request->option_id;
         $attempt->save();
 
-    }
-
-    public function editQuestion(Request $request){
-        return 'ok';
+        return response()->json(['sucsses' =>'attempted'], 200);
     }
 
 
-    public function deleteQuestion(Request $request){
-        return 'ok';
-    }
 
    
 }
