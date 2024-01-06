@@ -33,6 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/question',[QuestionController::class,'editQuestion']);
     Route::delete('/question',[QuestionController::class,'deleteQuestion']);
     
+
+
+    Route::post('/answer', [ExamController::class, 'addAnswer']);
 });
 
 
